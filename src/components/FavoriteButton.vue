@@ -2,9 +2,9 @@
 import { defineModel, defineProps } from "vue";
 import Button from "primevue/button";
 import StarIcon from "@/assets/images/Star.svg";
-import type { Pokemon } from "@/interfaces/pokemon.interface.ts";
+import type { Pokemon, PokemonDetail } from "@/interfaces/pokemon.interface.ts";
 
-const pokemon = defineModel<Pokemon>();
+const pokemon = defineModel<Pokemon | PokemonDetail>();
 
 const props = defineProps({
   disabled: {
@@ -20,12 +20,14 @@ const props = defineProps({
     rounded
     variant="outlined"
     icon="pi pi-star"
-    @click="props.disabled ? null : (pokemon.favorite = !pokemon.favorite)"
+    @click="
+      props.disabled || !pokemon ? null : (pokemon.favorite = !pokemon.favorite)
+    "
   >
     <img
       class="favorite-button__icon"
       :class="{
-        'favorite-button__icon---active': pokemon.favorite,
+        'favorite-button__icon---active': pokemon?.favorite,
       }"
       :src="StarIcon"
       alt="Star icon"

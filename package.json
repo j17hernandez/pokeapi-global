@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@primevue/themes": "^4.2.5",
-    "@tanstack/vue-query": "^5.62.9",
     "axios": "^1.7.9",
     "pinia": "^2.3.0",
     "primevue": "^4.2.5",

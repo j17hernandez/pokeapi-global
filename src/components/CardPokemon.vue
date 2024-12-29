@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps } from "vue";
+import { defineProps, defineEmits } from "vue";
 import type { Pokemon } from "@/interfaces/pokemon.interface.ts";
 import Card from "primevue/card";
 import FavoriteButton from "@/components/FavoriteButton.vue";
@@ -7,14 +7,22 @@ import FavoriteButton from "@/components/FavoriteButton.vue";
 const props = defineProps({
   pokemon: Object as () => Pokemon,
 });
+
+const emit = defineEmits(["openModal"]);
+
+const emitEvent = (pokemon: Pokemon) => {
+  emit("openModal", pokemon);
+};
 </script>
 
 <template>
   <Card class="pokemon-card">
     <template #title>
       <div class="pokemon-card__header">
-        <span class="pokemon-card__name">{{ pokemon.name }}</span>
-        <FavoriteButton :model-value="pokemon" />
+        <span class="pokemon-card__name" @click="emitEvent(props?.pokemon!)">{{
+          props?.pokemon?.name
+        }}</span>
+        <FavoriteButton v-model="props.pokemon" />
       </div>
     </template>
   </Card>
@@ -25,6 +33,8 @@ const props = defineProps({
 
 .pokemon-card {
   height: 60px;
+  background-color: vars.$background-card !important;
+  border-radius: 5px !important;
 
   &__header {
     display: flex;
@@ -37,6 +47,8 @@ const props = defineProps({
     font-weight: 500;
     color: vars.$color-grey-darker;
     text-transform: capitalize;
+    cursor: pointer;
+    width: 100%;
   }
 
   .p-card-body {

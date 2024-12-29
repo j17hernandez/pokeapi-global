@@ -9,10 +9,32 @@ import IconField from "primevue/iconfield";
 import InputIcon from "primevue/inputicon";
 import InputText from "primevue/inputtext";
 import { Tabs } from "@/constants/tabs";
+import { usePokemonService } from "@/composables/usePokemonService";
+import type { Pokemon } from "@/interfaces/pokemon.interface";
+
 const pokemonStore = usePokemonStore();
+const { fetchPokemonList } = usePokemonService();
+
+const getPokemonList = async () => {
+  try {
+    pokemonStore.isLoading = true;
+
+    const data = await fetchPokemonList();
+    if (data) {
+      pokemonStore.pokemonList = data.map((pokemon: Pokemon) => ({
+        ...pokemon,
+        favorite: false,
+      }));
+    }
+  } catch (error: any) {
+    console.error("Error fetching Pokémon list:", error.message);
+  } finally {
+    setTimeout(() => (pokemonStore.isLoading = false), 500);
+  }
+};
 
 onMounted(() => {
-  pokemonStore.fetchPokemonList();
+  getPokemonList();
 });
 
 const pokemonList = computed(() => pokemonStore.getFilteredPokemonList());
@@ -44,7 +66,10 @@ const activeTab = ref(Tabs.ALL);
         v-model="favoritePokemonList"
       />
     </div>
-    <FooterTab v-model="activeTab" />
+    <FooterTab
+      v-if="!pokemonStore.isLoading && pokemonList.length > 0"
+      v-model="activeTab"
+    />
   </div>
 </template>
 
@@ -71,6 +96,12 @@ const activeTab = ref(Tabs.ALL);
   &__search {
     width: 100%;
     height: 50px;
+
+    &:focus {
+      outline: none;
+      border: 1px solid vars.$color-grey-dark !important;
+      box-shadow: none !important;
+    }
   }
 }
 

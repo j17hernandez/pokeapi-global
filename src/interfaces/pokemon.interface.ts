@@ -17,11 +17,25 @@ export interface PokemonDetail {
   name: string;
   types: Type[];
   weight: number;
+  sprites: Sprites;
+  favorite?: boolean;
 }
 
 export interface Species {
   name: string;
   url: string;
+}
+
+export interface Other {
+  "official-artwork": OfficialArtwork;
+}
+
+export interface OfficialArtwork {
+  front_default: string;
+  front_shiny: string;
+}
+export interface Sprites {
+  other?: Other;
 }
 
 export interface Type {
