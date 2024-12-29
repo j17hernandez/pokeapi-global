@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import Loader from '@/assets/images/loader.svg';
+import Loader from "@/assets/images/loader.svg";
 </script>
 
 <template>
   <div class="loading-spinner">
-    <img :src="Loader" alt="Cargando..." class="spinner" />
+    <img :src="Loader" alt="loading..." class="spinner" />
   </div>
 </template>
 

@@ -1,34 +1,33 @@
-import { ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
 import useAxios from "./useAxios";
+import type { Response, PokemonDetail } from "@/interfaces/pokemon.interface";
 
 export function usePokemonService() {
   const { axiosInstance } = useAxios();
-  const pokemonList = ref([]);
-  const loading = ref(false);
-  const error = ref("");
 
   const fetchPokemonList = async () => {
-    loading.value = true;
-    try {
-      const response = await axiosInstance.get("pokemon?limit=50");
-      pokemonList.value = response.data.results;
-    } catch (err) {
-      error.value = "Error fetching Pokémon data";
-    } finally {
-      setTimeout(() => {
-        loading.value = false;
-      }, 500);
-    }
+    const response = await axiosInstance.get<Response>("pokemon?limit=50");
+    return response.data.results;
   };
+
+  const pokemonListQuery = useQuery({
+    queryKey: ["pokemonList"],
+    queryFn: fetchPokemonList,
+    staleTime: 1000 * 60 * 5, // Guarda en caché los datos durante 5 minutos
+    retry: 2, // Intenta la consulta 2 veces antes de fallar
+  });
 
   const fetchPokemonDetails = async (name: string) => {
-    try {
-      const response = await axiosInstance.get(`pokemon/${name}`);
-      return response.data;
-    } catch (err) {
-      console.error("Error fetching Pokémon details:", err);
-    }
+    const response = await axiosInstance.get<PokemonDetail>(`pokemon/${name}`);
+    return response.data;
   };
 
-  return { pokemonList, loading, error, fetchPokemonList, fetchPokemonDetails };
+  const getPokemonDetails = (name: string) =>
+    useQuery({
+      queryKey: ["pokemonDetails", name], // Clave única para esta consulta
+      queryFn: () => fetchPokemonDetails(name), // Función para obtener los detalles
+      enabled: !!name, // Solo ejecuta la consulta si `name` tiene un valor
+    });
+
+  return { pokemonListQuery, getPokemonDetails };
 }
