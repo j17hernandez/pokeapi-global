@@ -19,9 +19,12 @@ const emitEvent = (pokemon: Pokemon) => {
   <Card class="pokemon-card">
     <template #title>
       <div class="pokemon-card__header">
-        <span class="pokemon-card__name" @click="emitEvent(props?.pokemon!)">{{
-          props?.pokemon?.name
-        }}</span>
+        <span
+          data-testid="pokemon-name"
+          class="pokemon-card__name"
+          @click="emitEvent(props?.pokemon!)"
+          >{{ props?.pokemon?.name }}</span
+        >
         <FavoriteButton v-model="props.pokemon" />
       </div>
     </template>

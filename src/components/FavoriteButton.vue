@@ -18,6 +18,7 @@ const props = defineProps({
   <Button
     class="favorite-button"
     rounded
+    data-testid="favorite-button"
     variant="outlined"
     icon="pi pi-star"
     @click="
@@ -26,6 +27,7 @@ const props = defineProps({
   >
     <img
       class="favorite-button__icon"
+      data-testid="favorite-icon"
       :class="{
         'favorite-button__icon---active': pokemon?.favorite,
       }"
