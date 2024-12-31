@@ -4,8 +4,8 @@ import PokemonView from "../views/PokemonView.vue";
 
 // Definir las rutas
 const routes = [
-  { path: "/", component: HomeView },
-  { path: "/pokemon", component: PokemonView },
+  { path: "/", component: HomeView, name: "Home" },
+  { path: "/pokemon", component: PokemonView, name: "Pokemon" },
 ];
 
 // Crear el router

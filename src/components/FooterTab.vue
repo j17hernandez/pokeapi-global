@@ -27,6 +27,7 @@ const TabsEnum = Tabs;
       :class="{
         'footer-tab___button---active': activeTab === TabsEnum.FAVORITES,
       }"
+      data-testid="favorite-button-tab"
       rounded
       @click="activeTab = TabsEnum.FAVORITES"
     >

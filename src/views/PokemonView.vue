@@ -17,19 +17,22 @@ const { fetchPokemonList } = usePokemonService();
 
 const getPokemonList = async () => {
   try {
-    pokemonStore.isLoading = true;
+    pokemonStore.setLoading(true);
 
     const data = await fetchPokemonList();
     if (data) {
-      pokemonStore.pokemonList = data.map((pokemon: Pokemon) => ({
-        ...pokemon,
-        favorite: false,
-      }));
+      pokemonStore.setPokemonList(
+        data.map((pokemon: Pokemon) => ({
+          ...pokemon,
+          favorite: false,
+        }))
+      );
     }
   } catch (error: any) {
     console.error("Error fetching Pokémon list:", error.message);
   } finally {
-    setTimeout(() => (pokemonStore.isLoading = false), 500);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    pokemonStore.setLoading(false);
   }
 };
 
@@ -37,10 +40,8 @@ onMounted(() => {
   getPokemonList();
 });
 
-const pokemonList = computed(() => pokemonStore.getFilteredPokemonList());
-const favoritePokemonList = computed(() =>
-  pokemonStore.getFavoritePokemonList()
-);
+const pokemonList = computed(() => pokemonStore.getFilteredPokemonList);
+const favoritePokemonList = computed(() => pokemonStore.getFavoritePokemonList);
 
 const TabsEnum = Tabs;
 const activeTab = ref(Tabs.ALL);
@@ -49,13 +50,14 @@ const activeTab = ref(Tabs.ALL);
 <template>
   <div class="pokemon-view">
     <LoadingSpinner v-if="pokemonStore.isLoading" />
-    <div class="pokemon-view__container" v-else>
+    <div class="pokemon-view__container" v-else data-testid="pokemon-view">
       <IconField>
         <InputIcon>
           <img :src="SearchIcon" alt="search-icon" />
         </InputIcon>
         <InputText
           v-model="pokemonStore.search"
+          data-testid="search-input"
           class="pokemon-view__search"
           placeholder="Search"
         />

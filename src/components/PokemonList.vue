@@ -15,15 +15,15 @@ const { fetchPokemonDetails } = usePokemonService();
 
 const openModal = async (pokemon: Pokemon) => {
   try {
-    pokemonStore.isLoading = true;
+    pokemonStore.setLoading(true);
     const data = await fetchPokemonDetails(pokemon.name);
     if (data) {
-      pokemonStore.selectedPokemon = { ...data, favorite: pokemon.favorite };
+      pokemonStore.setSelectedPokemon({ ...data, favorite: pokemon.favorite });
     }
   } catch (error: any) {
     console.error("Error fetching Pokémon details:", error.message);
   } finally {
-    setTimeout(() => (pokemonStore.isLoading = false), 500);
+    setTimeout(() => pokemonStore.setLoading(false), 500);
   }
 };
 

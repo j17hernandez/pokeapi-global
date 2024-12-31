@@ -11,14 +11,20 @@ const goToPokemonView = () => {
 </script>
 
 <template>
-  <div class="home-view">
+  <div class="home-view" data-testid="home-view">
     <img :src="PikachuIcon" alt="Pikachu" class="pikachu-icon" />
     <h1 class="home-view__title">Welcome to Pokédex</h1>
     <span class="home-view__description">
       The digital encyclopedia created by Professor Oak is an invaluable tool to
       Trainers in the Pokémon world.
     </span>
-    <Button severity="danger" class="button" rounded @click="goToPokemonView">
+    <Button
+      data-testid="started-button"
+      severity="danger"
+      class="button"
+      rounded
+      @click="goToPokemonView"
+    >
       Get started
     </Button>
   </div>

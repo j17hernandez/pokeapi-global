@@ -11,6 +11,7 @@
     "test:watch": "vitest --watch"
   },
   "dependencies": {
+    "@pinia/testing": "^0.1.7",
     "@primevue/themes": "^4.2.5",
     "axios": "^1.7.9",
     "pinia": "^2.3.0",

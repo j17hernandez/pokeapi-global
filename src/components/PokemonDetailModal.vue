@@ -41,6 +41,7 @@ const sharePokemon = () => {
     position="center"
     persistent
     class="pokemon-detail-modal"
+    data-testid="pokemon-detail-modal"
   >
     <template #container>
       <div class="pokemon-detail-modal__header">
@@ -63,34 +64,50 @@ const sharePokemon = () => {
       <div class="pokemon-detail-modal__content">
         <span class="pokemon-detail-modal__content__key">
           Name:
-          <span class="pokemon-detail-modal__content__value">{{
-            pokemonStore.selectedPokemon?.name
-          }}</span>
+          <span
+            data-testid="modal-pokemon-name"
+            class="pokemon-detail-modal__content__value"
+            >{{ pokemonStore.selectedPokemon?.name }}</span
+          >
         </span>
         <Divider />
         <span class="pokemon-detail-modal__content__key">
           Weight:
-          <span class="pokemon-detail-modal__content__value">
+          <span
+            data-testid="pokemon-weight"
+            class="pokemon-detail-modal__content__value"
+          >
             {{ pokemonStore.selectedPokemon?.weight }}
           </span>
         </span>
         <Divider />
         <span class="pokemon-detail-modal__content__key">
           Height:
-          <span class="pokemon-detail-modal__content__value">
+          <span
+            data-testid="pokemon-height"
+            class="pokemon-detail-modal__content__value"
+          >
             {{ pokemonStore.selectedPokemon?.height }}
           </span>
         </span>
         <Divider />
         <span class="pokemon-detail-modal__content__key">
           Types:
-          <span class="pokemon-detail-modal__content__value">
+          <span
+            data-testid="pokemon-types"
+            class="pokemon-detail-modal__content__value"
+          >
             {{ pokemonTypes }}
           </span>
         </span>
         <Divider />
         <div class="pokemon-detail-modal__content__footer">
-          <Button severity="danger" rounded @click="sharePokemon">
+          <Button
+            data-testid="share-button"
+            severity="danger"
+            rounded
+            @click="sharePokemon"
+          >
             Share to my friends {{ isCopied ? "✅" : "" }}
           </Button>
           <FavoriteButton v-model="pokemonStore.selectedPokemon!" disabled />

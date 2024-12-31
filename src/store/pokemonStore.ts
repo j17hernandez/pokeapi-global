@@ -9,20 +9,32 @@ export const usePokemonStore = defineStore("pokemon", {
     search: "",
   }),
 
-  actions: {
-    getFilteredPokemonList() {
-      if (!this.search) return this.pokemonList;
-      return this.pokemonList.filter((pokemon: Pokemon) =>
-        pokemon.name.toLowerCase().includes(this.search.toLowerCase())
+  getters: {
+    getFilteredPokemonList: (state) => {
+      if (!state.search) return state.pokemonList;
+      return state.pokemonList.filter((pokemon: Pokemon) =>
+        pokemon.name.toLowerCase().includes(state.search.toLowerCase())
       );
     },
-    getFavoritePokemonList() {
-      return this.pokemonList.filter(
+    getFavoritePokemonList: (state) => {
+      return state.pokemonList.filter(
         (pokemon: Pokemon) =>
           pokemon.favorite &&
-          (!this.search ||
-            pokemon.name.toLowerCase().includes(this.search.toLowerCase()))
+          (!state.search ||
+            pokemon.name.toLowerCase().includes(state.search.toLowerCase()))
       );
+    },
+  },
+
+  actions: {
+    setPokemonList(pokemonList: Pokemon[]) {
+      this.pokemonList = pokemonList;
+    },
+    setSelectedPokemon(selectedPokemon: PokemonDetail) {
+      this.selectedPokemon = selectedPokemon;
+    },
+    setLoading(isLoading: boolean) {
+      this.isLoading = isLoading;
     },
   },
 });
